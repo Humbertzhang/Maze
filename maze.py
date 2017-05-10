@@ -51,6 +51,7 @@ def GenerateMaze(point):
                     GenerateMaze(nextpoint)
                 else:
                     continue
+        
         else:
             return
 
