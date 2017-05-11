@@ -8,6 +8,9 @@ global SIZE
 SIZE = input("Please input the size of maze:")
 print "Press g to generate the maze."
 
+global maze_color
+maze_color = (0,0,0)
+
 pygame.init()
 screen = pygame.display.set_mode((SIZE*10+20,SIZE*10+20),0,32)
 
@@ -18,23 +21,27 @@ class Block(object):
     def __init__(self,x,y,statu):
         self.x = x
         self.y = y
-        self.statu = 0;
-        self.id = ((x+5)/10,(y+5)/10)
+        self.statu = statu;
+        self.id = ((x)/10,(y)/10)
 
 def DrawRect():
-    global maze_color
-    maze_color = (0,0,0)
-    pygame.draw.line(screen,maze_color,(10,10),(SIZE*10+10,10))
-    pygame.draw.line(screen,maze_color,(10,10),(10,SIZE*10+10))
-    pygame.draw.line(screen,maze_color,(10,SIZE*10+10),(SIZE*10+10,SIZE*10+10))
-    pygame.draw.line(screen,maze_color,(SIZE*10+10,10),(SIZE*10+10,SIZE*10+10))
+    pygame.draw.line(screen,maze_color,(15,15),(SIZE*10+5,15))
+    pygame.draw.line(screen,maze_color,(15,15),(15,SIZE*10+5))
+    pygame.draw.line(screen,maze_color,(15,SIZE*10+5),(SIZE*10+5,SIZE*10+5))
+    pygame.draw.line(screen,maze_color,(SIZE*10+5,15),(SIZE*10+5,SIZE*10+5))
 
 def GenerateBlocks():
     global d
     d = {}
-    for i in range(5,SIZE*10+1,5):
-        for j in range (5,SIZE*10+1,5):
-            d[((i+5)/10,(j+5)/10)] = Block(i,j,0)
+    for i in range(15,SIZE*10+6,10):
+        for j in range (15,SIZE*10+6,10):
+            idx,idy= i/10,j/10
+            if ((idx == 1 or idx == SIZE) or (idy == 1 or idy == SIZE )):
+                d[((i)/10,(j)/10)] = Block(i,j,1)
+                #if (idx == 1 and idy==1) or (idx == 1 and idy == 2):
+                #    d[(i/10,j/10)].statu=0
+            else:
+                d[((i)/10,(j)/10)] = Block(i,j,0)
 
 def GenerateMaze(point):
     point.statu = 1
@@ -47,10 +54,8 @@ def GenerateMaze(point):
             if point.id[0] + choice[0] > 0 and point.id[0] + choice[0] <=SIZE and point.id[1] + choice[1] > 0 and point.id[1] + choice[1] <=SIZE:
                 nextpoint = d[(point.id[0] + choice[0],point.id[1]+choice[1])]
                 if nextpoint.statu == 0:
-                    pygame.draw.line(screen,maze_color,(point.x,point.y),(nextpoint.x,nextpoint.y))
+                    pygame.draw.line(screen,maze_color,(point.x,point.y),(nextpoint.x,nextpoint.y),2)
                     GenerateMaze(nextpoint)
-                else:
-                    continue
         
         else:
             return
@@ -65,6 +70,6 @@ while True:
                 screen.fill((255,255,255))
                 DrawRect()
                 GenerateBlocks()
-                GenerateMaze(d[(1,1)])
+                GenerateMaze(d[((randint(2,SIZE-1)),(randint(2,SIZE-1)))])
                 
         pygame.display.update()
