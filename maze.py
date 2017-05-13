@@ -9,7 +9,7 @@ SIZE = input("Please input the size of maze:")
 print "Press g to generate the maze."
 
 global maze_color
-maze_color = (0,0,0)
+maze_color = (255,255,255)
 
 pygame.init()
 screen = pygame.display.set_mode((SIZE*10+20,SIZE*10+20),0,32)
@@ -54,7 +54,7 @@ def GenerateMaze(point):
             if point.id[0] + choice[0] > 0 and point.id[0] + choice[0] <=SIZE and point.id[1] + choice[1] > 0 and point.id[1] + choice[1] <=SIZE:
                 nextpoint = d[(point.id[0] + choice[0],point.id[1]+choice[1])]
                 if nextpoint.statu == 0:
-                    pygame.draw.line(screen,maze_color,(point.x,point.y),(nextpoint.x,nextpoint.y),2)
+                    pygame.draw.line(screen,maze_color,(point.x,point.y),(nextpoint.x,nextpoint.y),6)
                     GenerateMaze(nextpoint)
         
         else:
@@ -67,9 +67,9 @@ while True:
         if event.type == KEYDOWN:
             #Generate Maze Part
             if event.key == K_g:
-                screen.fill((255,255,255))
+                screen.fill((0,0,0))
                 DrawRect()
                 GenerateBlocks()
-                GenerateMaze(d[((randint(2,SIZE-1)),(randint(2,SIZE-1)))])
+                GenerateMaze(d[(2,2)])
                 
         pygame.display.update()
