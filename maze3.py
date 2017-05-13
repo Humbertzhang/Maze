@@ -64,6 +64,17 @@ def DrawAll():
             idx,idy = i/10,j/10
             AllCells[(idx,idy)].draw()       
 
+
+
+def next(nowCell):
+    temp = [0,0,0,0]
+    
+
+
+def backtrack(nextCell):
+    pass
+
+'''
 def Next(cell):
     cell.statu = 1
     #up,right,down,left
@@ -91,6 +102,7 @@ def Next(cell):
                 Next(nextcell)
     else:
        return
+'''
 
 
 #Pygame
